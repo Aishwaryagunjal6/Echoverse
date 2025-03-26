@@ -1,11 +1,28 @@
+require ("dotenv").config()
 const express= require('express')
 const app = express()
 const mongoose = require('mongoose')
-require ("dotenv").config()
+const passport = require("passport")
+const passportConfig = require("./config/passport")
+const session = require("express-session")
+const mongoStore = require("connect-mongo")
 
 const userRoutes = require("./routes/authRoutes")
 
 const PORT = process.env.PORT || 3000
+
+//session middleware to managa session
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: false,
+  store: mongoStore.create({mongoUrl: process.env.MONGO_URL})
+}))
+
+//passport configuration
+passportConfig(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended:true}))
