@@ -1,23 +1,30 @@
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
+const passport = require("passport")
 
 exports.getLogin = (req,res)=>{
   res.render("login")
 };
 
-exports.Login = async (req, res)=>{
-  const {username, password} = req.body;
-  try{
-    const user = await User.findOne({username})
-    if(user && user.password===password){
-      res.send("Login success")
+exports.Login = async (req, res, next)=>{
+  passport.authenticate("local", (err, user, info)=>{
+    if(err){
+      return next(err)
     }
-    else{
-      res.send("login failed")
+    if(!user){
+      return res.render("login", {
+        title: "Login",
+        user: req.username,
+        error: info.message
+      })
     }
-  }catch(err){
-    res.send(err)
-  }
+    req.logIn(user, (err)=>{
+      if(err){
+        return next(err)
+      }
+      return res.redirect("/")
+    })
+  })(req, res, next)
 }
 
 exports.getRegister = (req,res)=>{

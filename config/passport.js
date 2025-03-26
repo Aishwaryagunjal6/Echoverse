@@ -21,7 +21,7 @@ module.exports = function(passport){
         })
       }
       //authentication done , return the user object
-      return donr(null, user)
+      return done(null, user)
     }catch(err){
       return done(err)
     }
