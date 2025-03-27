@@ -30,6 +30,14 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/auth", userRoutes)
 
+app.get("/", (req, res)=>{
+  res.render("home.ejs",{
+    user:req.user,
+    title:"Home",
+    error:""
+  })
+})
+
 mongoose.connect(process.env.MONGO_URL).then(()=>{
   app.listen(PORT, ()=>{
     console.log(`Server running on PORT ${PORT}`)
