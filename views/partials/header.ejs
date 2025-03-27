@@ -3,15 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Header</title>
+  <title><%=title%></title>
 </head>
 <body>
   <h1>Header</h1>
   <nav>
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/auth/login">Login</a></li>
-      <li><a href="/auth/register">Register</a></li>
+      <% if(user){ %>
+        <!-- Private links -->
+        <li><a href="/">Home</a></li>
+        <li><a href="/">Posts</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+        <li><a href="/auth/register">Register</a></li>
+      <% }else{ %>
+        <!-- Public links -->
+        <li><a href="/">Home</a></li>
+        <li><a href="/auth/login">Login</a></li>
+        <li><a href="/auth/register">Register</a></li>
+        <li><a href="/">Posts</a></li>
+      <% } %>
+      
+      
     </ul>
   </nav>
 </body>

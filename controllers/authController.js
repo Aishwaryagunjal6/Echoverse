@@ -3,7 +3,11 @@ const bcrypt = require("bcryptjs")
 const passport = require("passport")
 
 exports.getLogin = (req,res)=>{
-  res.render("login")
+  res.render("login",{
+    title:"Login",
+    error:"",
+    user: req.user
+  })
 };
 
 exports.Login = async (req, res, next)=>{
@@ -14,7 +18,7 @@ exports.Login = async (req, res, next)=>{
     if(!user){
       return res.render("login", {
         title: "Login",
-        user: req.username,
+        user: req.user,
         error: info.message
       })
     }
@@ -28,7 +32,7 @@ exports.Login = async (req, res, next)=>{
 }
 
 exports.getRegister = (req,res)=>{
-  res.render("register", { title: "Register", user: req.username, error: null });
+  res.render("register", { title: "Register", user: req.user, error: null });
 }
 
 exports.Register = async(req,res)=>{
@@ -39,7 +43,7 @@ exports.Register = async(req,res)=>{
     if(existingUser){
       return res.render("register", {
         title: "Register",
-        user: req.username,
+        user: req.user,
         error: "User already Exists"
       })
     }
@@ -56,9 +60,18 @@ exports.Register = async(req,res)=>{
   }catch(error){
     res.render("register",{
       title:"Register",
-      user: req.username,
+      user: req.user,
       error: error.message
     })
   }
 
+}
+
+exports.logout = (req, res)=>{
+  req.logout((err)=>{
+    if(err){
+      return next(err);
+    }
+    res.redirect("/auth/login")
+  })
 }
