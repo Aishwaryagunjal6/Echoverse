@@ -8,6 +8,7 @@ const session = require("express-session")
 const mongoStore = require("connect-mongo")
 
 const userRoutes = require("./routes/authRoutes")
+const postRoutes = require("./routes/postRoutes")
 
 const PORT = process.env.PORT || 3000
 
@@ -29,6 +30,7 @@ app.use(express.urlencoded({extended:true}))
 // app.use(express.json());
 
 app.use("/auth", userRoutes)
+app.use("/posts", postRoutes)
 
 app.get("/", (req, res)=>{
   res.render("home.ejs",{

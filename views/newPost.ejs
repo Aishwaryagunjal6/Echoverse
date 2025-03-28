@@ -1,0 +1,36 @@
+<%-include("partials/header.ejs") %>
+
+<form action="/posts/add" method="POST" enctype="multipart/form-data" class="container mt-5 p-4 shadow-lg rounded bg-light">
+  <% if(success){ %>
+    <div class="alert alert-success text-center"><%= success %></div>
+  <% } %>
+
+  <h2 class="text-center mb-4">Create a New Post</h2>
+
+  <!-- Title Input -->
+  <div class="mb-3">
+    <label for="title" class="form-label fw-bold">Title</label>
+    <input type="text" name="title" id="title" class="form-control" placeholder="Enter post title" required>
+  </div>
+
+  <!-- Content Input -->
+  <div class="mb-3">
+    <label for="content" class="form-label fw-bold">Content</label>
+    <textarea name="content" id="content" cols="30" rows="5" class="form-control" placeholder="Write your post content here..." required></textarea>
+  </div>
+
+  <!-- Image Upload -->
+  <div class="mb-3">
+    <label for="image" class="form-label fw-bold">Upload Images</label>
+    <input multiple type="file" name="images" id="image" class="form-control">
+    <small class="text-muted">You can select multiple images.</small>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="d-grid">
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+  </div>
+</form>
+
+
+<%- include('partials/footer') %>
