@@ -49,6 +49,7 @@ exports.createPost = async (req, res)=>{
   res.render("newPost",{
     title: "Create Post",
     user: req.user,
-    success: "Post Created Successfully"
+    success: "Post Created Successfully",
+    error: ""
   })
 }
