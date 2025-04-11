@@ -1,6 +1,12 @@
-<%-include("partials/header.ejs") %>
+<%-include("partials/header.ejs", {title: "Add post", user : user}) %>
 
-<form action="/posts/add" method="POST" enctype="multipart/form-data" class="container mt-5 p-4 shadow-lg rounded bg-light" onsubmit="return validationForm()">
+<% if (error) { %>
+  <div class="alert alert-danger" role="alert"><%= error %></div>
+  <% } %> <% if (success) { %>
+  <div class="alert alert-success" role="alert"><%= success %></div>
+<% } %>
+
+<form action="/posts/add" method="POST" enctype="multipart/form-data" class="container mt-5 p-4 shadow-lg rounded bg-light" >
   <% if(success){ %>
     <div class="alert alert-success text-center"><%= success %></div>
   <% } %>
@@ -61,5 +67,7 @@
     return true;
   }
 </script>
+
+
 
 <%- include('partials/footer') %>

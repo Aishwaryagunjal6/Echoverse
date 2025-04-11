@@ -1,28 +1,31 @@
+const asyncHandler = require("express-async-handler")
 const Post = require("../models/Post")
 const File = require("../models/File")
 
 
-exports.getPostForm = (req, res)=>{
+exports.getPostForm = asyncHandler((req, res)=>{
   res.render("newPost",{
     title:"Create Post",
     user: req.user,
-    success: ""
+    success: "",
+    error: ""
   });
 
-}
+})
 
 //creating new post
-exports.createPost = async (req, res)=>{
+exports.createPost = asyncHandler(async (req, res)=>{
   const {title, content} = req.body;
   
   //validation for file upload
-  if(!req.files || req.files.length === 0){
-    return res.render("newPost",{
-      title:"Create Post",
-      user: req.user,
-      error: "Atleast one image is required!"
-    })
-  }
+  // if(!req.files || req.files.length === 0){
+  //   return res.render("newPost",{
+  //     title:"Create Post",
+  //     user: req.user,
+  //     error: "Atleast one image is required!",
+  //     success: ""
+  //   })
+  // }
 
   const images = await Promise.all(req.files.map(async(file)=>{
     //save the image into our database
@@ -52,4 +55,4 @@ exports.createPost = async (req, res)=>{
     success: "Post Created Successfully",
     error: ""
   })
-}
+})

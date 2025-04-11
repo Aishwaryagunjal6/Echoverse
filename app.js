@@ -6,9 +6,11 @@ const passport = require("passport")
 const passportConfig = require("./config/passport")
 const session = require("express-session")
 const mongoStore = require("connect-mongo")
+const errorHandler = require("./middlewares/errorHandler")
 
 const userRoutes = require("./routes/authRoutes")
 const postRoutes = require("./routes/postRoutes")
+
 
 const PORT = process.env.PORT || 3000
 
@@ -31,6 +33,9 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/auth", userRoutes)
 app.use("/posts", postRoutes)
+
+//error handler middleware
+app.use(errorHandler)
 
 app.get("/", (req, res)=>{
   res.render("home.ejs",{
