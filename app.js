@@ -7,6 +7,7 @@ const passportConfig = require("./config/passport")
 const session = require("express-session")
 const mongoStore = require("connect-mongo")
 const errorHandler = require("./middlewares/errorHandler")
+const methodOverride = require("method-override")
 
 const userRoutes = require("./routes/authRoutes")
 const postRoutes = require("./routes/postRoutes")
@@ -27,6 +28,7 @@ app.use(session({
 passportConfig(passport)
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride("_method"))   //used for updating and deleting logic for posts
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended:true}))
