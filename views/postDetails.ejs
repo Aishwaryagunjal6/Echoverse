@@ -1,6 +1,47 @@
 <%- include('partials/header', { title, user: user }) %>
 
-<h1>Post details</h1>
+<h1>
+  <%= post?.title %>
+</h1>
 
+<p>
+  <%= post?.content %>
+</p>
+
+<!-- Images display -->
+
+<% const images = post?.images; %>
+<% for(let i=0; i<post?.images.length; i++){ %>
+  <div>
+    <img src="<%= post.images[i].url %>" />
+  </div>  
+<% } %>
+
+
+<!-- Action buttons -->
+
+<% if(user?.id.toString() == post?.author?._id?.toString()) { %>
+  <div>
+    <a href="/post/<%= post?._id %>/delete">Delete</a>
+    <a href="/post/<%= post?._id %>/edit">Edit</a>
+  </div>
+<% } %>
+
+<!-- Comment Form -->
+ <div>
+  <h4>Comments</h4>
+  <form action="/posts/<%= post.id %>/comments" method="post">
+    <textarea name="content" id="" rows="5" placeholder="Add Comment" required></textarea>
+    <input type="submit" value="Comment" >
+  </form>
+ </div>
+
+ <!-- Display all comments -->
+  <div>
+    <% const comments = post?.comments %>
+    <% comments.forEach(comment =>{ %>
+      <p><%= comment.content %></p>
+    <% }) %>
+  </div>
 
 <%- include('partials/footer') %>

@@ -10,6 +10,7 @@ const errorHandler = require("./middlewares/errorHandler")
 
 const userRoutes = require("./routes/authRoutes")
 const postRoutes = require("./routes/postRoutes")
+const commentRoutes = require("./routes/commentRoutes")
 
 
 const PORT = process.env.PORT || 3000
@@ -33,6 +34,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/auth", userRoutes)
 app.use("/posts", postRoutes)
+app.use("/", commentRoutes)
 
 //error handler middleware
 app.use(errorHandler)
