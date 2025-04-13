@@ -73,7 +73,14 @@ exports.createPost = asyncHandler(async (req, res)=>{
  //Get post by Id
 
  exports.getPostById = asyncHandler(async (req, res)=>{
-    const post = await Post.findById(req.params.id).populate("author", "username");
+    const post = await Post.findById(req.params.id).populate("author", "username").populate({
+      path:"comments",
+      populate:{
+        path: "author",
+        model: "User",
+        select: "username"
+      }
+    });
     res.render("postDetails", {
       title:"Post",
       post,
