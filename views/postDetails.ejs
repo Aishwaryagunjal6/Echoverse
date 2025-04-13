@@ -29,8 +29,8 @@
         
         <% if(user?.id.toString() == post?.author?._id?.toString()) { %>
           <div class="btn-group">
-            <a href="/post/<%= post?._id %>/edit" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
-            <a href="/post/<%= post?._id %>/delete" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+            <a href="/posts/<%= post?._id %>/edit" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
+            <a href="/posts/<%= post?._id %>/delete" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
           </div>
         <% } %>
       </div>

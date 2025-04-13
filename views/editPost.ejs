@@ -1,0 +1,28 @@
+<%- include('partials/header', { title, user }) %>
+
+<h1>Edit Form</h1>
+
+<form action="/posts/<%= post._id %>?_method=PUT" method="POST"> <!-- at this time the client side does not support the PUT method hence we need to override the default POST method by the PUT method as shown in this form tag-->
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" class="form-control" value="<%= post.title %>" />
+  </div>
+
+  <div class="form-group">
+    <label for="content">Content</label>
+    <textarea name="content" id="content" class="form-control" rows="5"><%= post.content %></textarea>
+  </div>
+
+  <!-- Loop through images to display them -->
+   <div >
+    <% post?.images?.forEach((image)=>{ %>
+        <img src="<%= image.url %>" />
+    <% }) %>
+   </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+<%- include('partials/footer') %>

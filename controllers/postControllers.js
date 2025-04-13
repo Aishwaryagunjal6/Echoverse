@@ -89,3 +89,26 @@ exports.createPost = asyncHandler(async (req, res)=>{
       error: ""
     })
  })
+
+
+//  Get edit post form
+
+exports.getEditPostForm = asyncHandler(async(req, res)=>{
+  const post = await Post.findById(req.params.id);
+  if(!post){
+    res.render("postDetails", {
+      title: "Edit Post",
+      user: req.user,
+      post,
+      error: "Post doesn't exists!",
+      success : ""
+    })
+  }
+  res.render("editPost", {
+    title: "Edit Post",
+    user: req.user,
+    post,
+    error: "",
+    success : ""
+  })
+})
