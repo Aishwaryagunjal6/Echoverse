@@ -49,3 +49,78 @@ exports.addComment = asyncHandler(async (req, res)=>{
   res.redirect(`/posts/${postId}`)
 
 })
+
+// Edit comments
+exports.getCommentForm = asyncHandler(async(req, res)=>{
+  const comment = await Comment.findById(req.params.id);
+  if(!comment){
+    return res.render("postDetails", {
+      title: "Post",
+      post: {}, // add this dummy empty object
+      comment,
+      user: req.user,
+      error: "Comment not found",
+      success: ""
+    });
+  }
+
+  res.render("editComment", {
+      title: "Comment",
+      comment,
+      user : req.user,
+      error: "",
+      success: ""
+  })
+})
+
+// Update comment
+exports.updateComment = asyncHandler(async (req, res) => {
+  const { content } = req.body;
+  const comment = await Comment.findById(req.params.id);
+  if (!comment) {
+    return res.render("postDetails", {
+      title: "Post",
+      comment,
+      user: req.user,
+      error: "Comment not found",
+      success: "",
+    });
+  }
+  if (comment.author.toString() !== req.user._id.toString()) {
+    return res.render("postDetails", {
+      title: "Post",
+      comment,
+      user: req.user,
+      error: "You are not authorized to edit this comment",
+      success: "",
+    });
+  }
+  comment.content = content || comment.content;
+  await comment.save();
+  res.redirect(`/posts/${comment.post}`);
+});
+
+//delete comment
+exports.deleteComment = asyncHandler(async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
+  if (!comment) {
+    return res.render("postDetails", {
+      title: "Post",
+      comment,
+      user: req.user,
+      error: "Comment not found",
+      success: "",
+    });
+  }
+  if (comment.author.toString() !== req.user._id.toString()) {
+    return res.render("postDetails", {
+      title: "Post",
+      comment,
+      user: req.user,
+      error: "You are not authorized to delete this comment",
+      success: "",
+    });
+  }
+  await Comment.findByIdAndDelete(req.params.id);
+  res.redirect(`/posts/${comment.post}`);
+});
